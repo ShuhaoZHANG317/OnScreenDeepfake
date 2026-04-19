@@ -1,35 +1,251 @@
-# log dir 
-log_dir: /data/home/zhiyuanyan/DeepfakeBench/logs/testing_bench
+# log dir
+log_dir: "/data/home/zhiyuanyan/DeepfakeBench/logs/testing_bench"
 
 # model setting
-pretrained: ./training/pretrained/xception-b5690688.pth   # path to a pre-trained model, if using one
-model_name: xception   # model name
-backbone_name: xception  # backbone name
+pretrained: "./training/pretrained/xception-b5690688.pth"   # path to a pre-trained model
+model_name: "xception"
+backbone_name: "xception"
 
-#backbone setting
+# backbone setting
 backbone_config:
-  mode: original
+  mode: "original"
   num_classes: 2
   inc: 3
   dropout: false
 
-# dataset
-all_dataset: [FaceForensics++, FF-F2F, FF-DF, FF-FS, FF-NT, FaceShifter, DeepFakeDetection, Celeb-DF-v1, Celeb-DF-v2, DFDCP, DFDC, DeeperForensics-1.0, UADFV]
-train_dataset: [FaceForensics++]
-test_dataset: [FaceForensics++, DeepFakeDetection]
+all_dataset: [
+  "FaceForensics++", "FF-F2F", "FF-DF", "FF-FS", "FF-NT", "FaceShifter", "DeepFakeDetection",
+  "Celeb-DF-v1", "Celeb-DF-v2", "Celeb-DF-v2-clean",
+  "D1", "D2",
+  "DFDCP", "DFDC", "DeeperForensics-1.0", "UADFV",
+  "recaptured_faces__angle__vivov21_15H_faces",
+  "recaptured_faces__angle__vivov21_15V_faces",
+  "recaptured_faces__angle__vivov21_30H_faces",
+  "recaptured_faces__angle__vivov21_30HV_faces",
+  "recaptured_faces__angle__vivov21_30V_faces",
+  "recaptured_faces__angle__vivov21_45H_faces",
+  "recaptured_faces__angle__vivov21_45V_faces",
+  "recaptured_faces__distance__vivov21_140cm_faces",
+  "recaptured_faces__distance__vivov21_190cm_faces",
+  "recaptured_faces__distance__vivov21_240cm_faces",
+  "recaptured_faces__distance__vivov21_290cm_faces",
+  "recaptured_faces__distance__vivov21_340cm_faces",
+  "recaptured_faces__distance__vivov21_390cm_faces",
+  "recaptured_faces__distance__vivov21_440cm_faces",
+  "recaptured_faces__distance__vivov21_490cm_faces",
+  "recaptured_faces__Iphone17pro__Aoc__Iphone17pro_Aoc1680x1050_15%_45_frames",
+  "recaptured_faces__Iphone17pro__Aoc__Iphone17pro_Aoc1680x1050_30%_0_frames",
+  "recaptured_faces__Iphone17pro__Aoc__Iphone17pro_Aoc1680x1050_30%_45_frames",
+  "recaptured_faces__Iphone17pro__Aoc__Iphone17pro_Aoc1680x1050_45%_45_frames",
+  "recaptured_faces__Iphone17pro__Aoc__Iphone17pro_Aoc1680x1050_60%_0_frames",
+  "recaptured_faces__Iphone17pro__Aoc__Iphone17pro_Aoc1680x1050_90%_0_frames",
+  "recaptured_faces__Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo_15%_45_frames",
+  "recaptured_faces__Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo_30%_0_frames",
+  "recaptured_faces__Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo_30%_45_frames",
+  "recaptured_faces__Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo_45%_45_frames",
+  "recaptured_faces__Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo_60%_0_frames",
+  "recaptured_faces__Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo_90%_0_frames",
+  "recaptured_faces__Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN_15%_45_frames",
+  "recaptured_faces__Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN_30%_0_frames",
+  "recaptured_faces__Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN_30%_45_frames",
+  "recaptured_faces__Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN_45%_45_frames",
+  "recaptured_faces__Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN_60%_0_frames",
+  "recaptured_faces__Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN_90%_0_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(55'')__Iphone17pro_MAXHUB(55'')_15%_45_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(55'')__Iphone17pro_MAXHUB(55'')_30%_0_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(55'')__Iphone17pro_MAXHUB(55'')_30%_45_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(55'')__Iphone17pro_MAXHUB(55'')_45%_45_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(55'')__Iphone17pro_MAXHUB(55'')_60%_0_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(55'')__Iphone17pro_MAXHUB(55'')_90%_0_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(86'')__Iphone17pro_MAXHUB(86'')_15%_45_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(86'')__Iphone17pro_MAXHUB(86'')_30%_0_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(86'')__Iphone17pro_MAXHUB(86'')_30%_45_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(86'')__Iphone17pro_MAXHUB(86'')_45%_45_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(86'')__Iphone17pro_MAXHUB(86'')_60%_0_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(86'')__Iphone17pro_MAXHUB(86'')_90%_0_frames",
+  "recaptured_faces__Iphone17pro__redmi__Iphone17pro_redmi4k_15%_45_frames",
+  "recaptured_faces__Iphone17pro__redmi__Iphone17pro_redmi4k_30%_0_frames",
+  "recaptured_faces__Iphone17pro__redmi__Iphone17pro_redmi4k_30%_45_frames",
+  "recaptured_faces__Iphone17pro__redmi__Iphone17pro_redmi4k_45%_45_frames",
+  "recaptured_faces__Iphone17pro__redmi__Iphone17pro_redmi4k_60%_0_frames",
+  "recaptured_faces__Iphone17pro__redmi__Iphone17pro_redmi4k_90%_0_frames",
+  "recaptured_faces__light__vivov21_bright_faces",
+  "recaptured_faces__light__vivov21_dark_faces",
+  "recaptured_faces__light__vivov21_normal_faces",
+  "recaptured_faces__Meta__Meta_Aoc_frames",
+  "recaptured_faces__Meta__Meta_MAXHUB(55'')_frames",
+  "recaptured_faces__Meta__Meta_MAXHUB(86'')_faces",
+  "recaptured_faces__Meta__Meta_redmi_frames",
+  "recaptured_faces__Meta__Meta_SEEWO_frames",
+  "recaptured_faces__Meta__Meta_STARZEN_frames",
+  "recaptured_faces__moire",
+  "recaptured_faces__Rokid__Rokid_Aoc_frames",
+  "recaptured_faces__Rokid__Rokid_MAXHUB(55'')_frames",
+  "recaptured_faces__Rokid__Rokid_MAXHUB(86'')_faces",
+  "recaptured_faces__Rokid__Rokid_redmi_frames",
+  "recaptured_faces__Rokid__Rokid_SEEWO_frames",
+  "recaptured_faces__Rokid__rokid_STARZEN_frames",
+  "recaptured_faces__vivo_v21__Aoc__vivov21_loc1680x1050_15%_45_frames",
+  "recaptured_faces__vivo_v21__Aoc__vivov21_loc1680x1050_30%_0_frames",
+  "recaptured_faces__vivo_v21__Aoc__vivov21_loc1680x1050_30%_45_frames",
+  "recaptured_faces__vivo_v21__Aoc__vivov21_loc1680x1050_45%_45_frames",
+  "recaptured_faces__vivo_v21__Aoc__vivov21_loc1680x1050_60%_0_frames",
+  "recaptured_faces__vivo_v21__Aoc__vivov21_loc1680x1050_90%_0_frames",
+  "recaptured_faces__vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_15%_45_frames",
+  "recaptured_faces__vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_30%_0_frames",
+  "recaptured_faces__vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_30%_45_frames",
+  "recaptured_faces__vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_45%_45_frames",
+  "recaptured_faces__vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_60%_0_frames",
+  "recaptured_faces__vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_90%_0_frames",
+  "recaptured_faces__vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_15%_45_frames",
+  "recaptured_faces__vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_30%_0_frames",
+  "recaptured_faces__vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_30%_45_frames",
+  "recaptured_faces__vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_45%_45_frames",
+  "recaptured_faces__vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_60%_0_frames",
+  "recaptured_faces__vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_90%_0_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(55'')__vivov21_MAXHUB(55'')_15%_45_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(55'')__vivov21_MAXHUB(55'')_30%_0_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(55'')__vivov21_MAXHUB(55'')_30%_45_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(55'')__vivov21_MAXHUB(55'')_45%_45_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(55'')__vivov21_MAXHUB(55'')_60%_0_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(55'')__vivov21_MAXHUB(55'')_90%_0_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(86'')__vivov21_MAXHUB(86'')_15%_45_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(86'')__vivov21_MAXHUB(86'')_30%_0_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(86'')__vivov21_MAXHUB(86'')_30%_45_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(86'')__vivov21_MAXHUB(86'')_45%_45_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(86'')__vivov21_MAXHUB(86'')_60%_0_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(86'')__vivov21_MAXHUB(86'')_90%_0_frames",
+  "recaptured_faces__vivo_v21__redmi__vivov21_redmi4k_15%_45_frames",
+  "recaptured_faces__vivo_v21__redmi__vivov21_redmi4k_30%_0_frames",
+  "recaptured_faces__vivo_v21__redmi__vivov21_redmi4k_30%_45_frames",
+  "recaptured_faces__vivo_v21__redmi__vivov21_redmi4k_45%_45_frames",
+  "recaptured_faces__vivo_v21__redmi__vivov21_redmi4k_60%_0_frames",
+  "recaptured_faces__vivo_v21__redmi__vivov21_redmi4k_90%_0_frames"
+]
 
-compression: c23  # compression-level for videos
-train_batchSize: 32   # training batch size
-test_batchSize: 32   # test batch size
-workers: 8   # number of data loading workers
-frame_num: {'train': 32, 'test': 32}   # number of frames to use per video in training and testing
-resolution: 256   # resolution of output image to network
-with_mask: false   # whether to include mask information in the input
-with_landmark: false   # whether to include facial landmark information in the input
+train_dataset: ["Celeb-DF-v2-clean"]
 
+# Test dataset inherits a subset (Simplified for brevity)
+test_dataset: ["D1", "D2"
+"recaptured_faces__angle__vivov21_15H_faces",
+  "recaptured_faces__angle__vivov21_15V_faces",
+  "recaptured_faces__angle__vivov21_30H_faces",
+  "recaptured_faces__angle__vivov21_30HV_faces",
+  "recaptured_faces__angle__vivov21_30V_faces",
+  "recaptured_faces__angle__vivov21_45H_faces",
+  "recaptured_faces__angle__vivov21_45V_faces",
+  "recaptured_faces__distance__vivov21_140cm_faces",
+  "recaptured_faces__distance__vivov21_190cm_faces",
+  "recaptured_faces__distance__vivov21_240cm_faces",
+  "recaptured_faces__distance__vivov21_290cm_faces",
+  "recaptured_faces__distance__vivov21_340cm_faces",
+  "recaptured_faces__distance__vivov21_390cm_faces",
+  "recaptured_faces__distance__vivov21_440cm_faces",
+  "recaptured_faces__distance__vivov21_490cm_faces",
+  "recaptured_faces__Iphone17pro__Aoc__Iphone17pro_Aoc1680x1050_15%_45_frames",
+  "recaptured_faces__Iphone17pro__Aoc__Iphone17pro_Aoc1680x1050_30%_0_frames",
+  "recaptured_faces__Iphone17pro__Aoc__Iphone17pro_Aoc1680x1050_30%_45_frames",
+  "recaptured_faces__Iphone17pro__Aoc__Iphone17pro_Aoc1680x1050_45%_45_frames",
+  "recaptured_faces__Iphone17pro__Aoc__Iphone17pro_Aoc1680x1050_60%_0_frames",
+  "recaptured_faces__Iphone17pro__Aoc__Iphone17pro_Aoc1680x1050_90%_0_frames",
+  "recaptured_faces__Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo_15%_45_frames",
+  "recaptured_faces__Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo_30%_0_frames",
+  "recaptured_faces__Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo_30%_45_frames",
+  "recaptured_faces__Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo_45%_45_frames",
+  "recaptured_faces__Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo_60%_0_frames",
+  "recaptured_faces__Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo_90%_0_frames",
+  "recaptured_faces__Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN_15%_45_frames",
+  "recaptured_faces__Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN_30%_0_frames",
+  "recaptured_faces__Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN_30%_45_frames",
+  "recaptured_faces__Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN_45%_45_frames",
+  "recaptured_faces__Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN_60%_0_frames",
+  "recaptured_faces__Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN_90%_0_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(55'')__Iphone17pro_MAXHUB(55'')_15%_45_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(55'')__Iphone17pro_MAXHUB(55'')_30%_0_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(55'')__Iphone17pro_MAXHUB(55'')_30%_45_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(55'')__Iphone17pro_MAXHUB(55'')_45%_45_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(55'')__Iphone17pro_MAXHUB(55'')_60%_0_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(55'')__Iphone17pro_MAXHUB(55'')_90%_0_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(86'')__Iphone17pro_MAXHUB(86'')_15%_45_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(86'')__Iphone17pro_MAXHUB(86'')_30%_0_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(86'')__Iphone17pro_MAXHUB(86'')_30%_45_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(86'')__Iphone17pro_MAXHUB(86'')_45%_45_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(86'')__Iphone17pro_MAXHUB(86'')_60%_0_frames",
+  "recaptured_faces__Iphone17pro__MAXHUB(86'')__Iphone17pro_MAXHUB(86'')_90%_0_frames",
+  "recaptured_faces__Iphone17pro__redmi__Iphone17pro_redmi4k_15%_45_frames",
+  "recaptured_faces__Iphone17pro__redmi__Iphone17pro_redmi4k_30%_0_frames",
+  "recaptured_faces__Iphone17pro__redmi__Iphone17pro_redmi4k_30%_45_frames",
+  "recaptured_faces__Iphone17pro__redmi__Iphone17pro_redmi4k_45%_45_frames",
+  "recaptured_faces__Iphone17pro__redmi__Iphone17pro_redmi4k_60%_0_frames",
+  "recaptured_faces__Iphone17pro__redmi__Iphone17pro_redmi4k_90%_0_frames",
+  "recaptured_faces__light__vivov21_bright_faces",
+  "recaptured_faces__light__vivov21_dark_faces",
+  "recaptured_faces__light__vivov21_normal_faces",
+  "recaptured_faces__Meta__Meta_Aoc_frames",
+  "recaptured_faces__Meta__Meta_MAXHUB(55'')_frames",
+  "recaptured_faces__Meta__Meta_MAXHUB(86'')_faces",
+  "recaptured_faces__Meta__Meta_redmi_frames",
+  "recaptured_faces__Meta__Meta_SEEWO_frames",
+  "recaptured_faces__Meta__Meta_STARZEN_frames",
+  "recaptured_faces__moire",
+  "recaptured_faces__Rokid__Rokid_Aoc_frames",
+  "recaptured_faces__Rokid__Rokid_MAXHUB(55'')_frames",
+  "recaptured_faces__Rokid__Rokid_MAXHUB(86'')_faces",
+  "recaptured_faces__Rokid__Rokid_redmi_frames",
+  "recaptured_faces__Rokid__Rokid_SEEWO_frames",
+  "recaptured_faces__Rokid__rokid_STARZEN_frames",
+  "recaptured_faces__vivo_v21__Aoc__vivov21_loc1680x1050_15%_45_frames",
+  "recaptured_faces__vivo_v21__Aoc__vivov21_loc1680x1050_30%_0_frames",
+  "recaptured_faces__vivo_v21__Aoc__vivov21_loc1680x1050_30%_45_frames",
+  "recaptured_faces__vivo_v21__Aoc__vivov21_loc1680x1050_45%_45_frames",
+  "recaptured_faces__vivo_v21__Aoc__vivov21_loc1680x1050_60%_0_frames",
+  "recaptured_faces__vivo_v21__Aoc__vivov21_loc1680x1050_90%_0_frames",
+  "recaptured_faces__vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_15%_45_frames",
+  "recaptured_faces__vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_30%_0_frames",
+  "recaptured_faces__vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_30%_45_frames",
+  "recaptured_faces__vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_45%_45_frames",
+  "recaptured_faces__vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_60%_0_frames",
+  "recaptured_faces__vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_90%_0_frames",
+  "recaptured_faces__vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_15%_45_frames",
+  "recaptured_faces__vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_30%_0_frames",
+  "recaptured_faces__vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_30%_45_frames",
+  "recaptured_faces__vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_45%_45_frames",
+  "recaptured_faces__vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_60%_0_frames",
+  "recaptured_faces__vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_90%_0_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(55'')__vivov21_MAXHUB(55'')_15%_45_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(55'')__vivov21_MAXHUB(55'')_30%_0_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(55'')__vivov21_MAXHUB(55'')_30%_45_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(55'')__vivov21_MAXHUB(55'')_45%_45_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(55'')__vivov21_MAXHUB(55'')_60%_0_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(55'')__vivov21_MAXHUB(55'')_90%_0_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(86'')__vivov21_MAXHUB(86'')_15%_45_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(86'')__vivov21_MAXHUB(86'')_30%_0_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(86'')__vivov21_MAXHUB(86'')_30%_45_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(86'')__vivov21_MAXHUB(86'')_45%_45_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(86'')__vivov21_MAXHUB(86'')_60%_0_frames",
+  "recaptured_faces__vivo_v21__MAXHUB(86'')__vivov21_MAXHUB(86'')_90%_0_frames",
+  "recaptured_faces__vivo_v21__redmi__vivov21_redmi4k_15%_45_frames",
+  "recaptured_faces__vivo_v21__redmi__vivov21_redmi4k_30%_0_frames",
+  "recaptured_faces__vivo_v21__redmi__vivov21_redmi4k_30%_45_frames",
+  "recaptured_faces__vivo_v21__redmi__vivov21_redmi4k_45%_45_frames",
+  "recaptured_faces__vivo_v21__redmi__vivov21_redmi4k_60%_0_frames",
+  "recaptured_faces__vivo_v21__redmi__vivov21_redmi4k_90%_0_frames"
+]
+
+compression: "c23"
+workers: 4
+train_batchSize: 32
+test_batchSize: 32
+frame_num:
+  train: 32
+  test: 5
+resolution: 256
+with_mask: false
+with_landmark: false
 
 # data augmentation
-use_data_augmentation: true  # Add this flag to enable/disable data augmentation
+use_data_augmentation: false
+recapture_aug_mode: "baseline"
 data_aug:
   flip_prob: 0.5
   rotate_prob: 0.0
@@ -42,45 +258,36 @@ data_aug:
   quality_lower: 40
   quality_upper: 100
 
-# mean and std for normalization
 mean: [0.5, 0.5, 0.5]
 std: [0.5, 0.5, 0.5]
 
-# optimizer config
 optimizer:
-  # choose between 'adam' and 'sgd'
-  type: adam
+  type: "adam"
   adam:
-    lr: 0.0002  # learning rate
-    beta1: 0.9  # beta1 for Adam optimizer
-    beta2: 0.999 # beta2 for Adam optimizer
-    eps: 0.00000001  # epsilon for Adam optimizer
-    weight_decay: 0.0005  # weight decay for regularization
+    lr: 0.0002
+    beta1: 0.9
+    beta2: 0.999
+    eps: 0.00000001
+    weight_decay: 0.0005
     amsgrad: false
   sgd:
-    lr: 0.0002  # learning rate
-    momentum: 0.9  # momentum for SGD optimizer
-    weight_decay: 0.0005  # weight decay for regularization
+    lr: 0.0002
+    momentum: 0.9
+    weight_decay: 0.0005
 
-# training config
-lr_scheduler: null   # learning rate scheduler
-nEpochs: 10   # number of epochs to train for
-start_epoch: 0   # manual epoch number (useful for restarts)
-save_epoch: 1   # interval epochs for saving models
-rec_iter: 100   # interval iterations for recording
-logdir: ./logs   # folder to output images and logs
-manualSeed: 1024   # manual seed for random number generation
-save_ckpt: true   # whether to save checkpoint
-save_feat: true   # whether to save features
+lr_scheduler: null
+nEpochs: 10
+start_epoch: 0
+save_epoch: 1
+rec_iter: 100
+logdir: "./logs"
+manualSeed: 1024
+save_ckpt: true
+save_feat: true
 
-# loss function
-loss_func: cross_entropy   # loss function to use
+loss_func: "cross_entropy"
 losstype: null
+metric_scoring: "auc"
 
-# metric
-metric_scoring: auc   # metric for evaluation (auc, acc, eer, ap)
-
-# cuda
-
-cuda: true   # whether to use CUDA acceleration
-cudnn: true   # whether to use CuDNN for convolution operations
+cuda: true
+cudnn: true
