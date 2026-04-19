@@ -1,8 +1,3 @@
-# author: Zhiyuan Yan
-# email: zhiyuanyan@link.cuhk.edu.cn
-# date: 2023-03-30
-# description: training code.
-
 import os
 import argparse
 from os.path import join
@@ -24,6 +19,7 @@ import torch.backends.cudnn as cudnn
 import torch.utils.data
 import torch.optim as optim
 from torch.utils.data.distributed import DistributedSampler
+from torch.utils.data import WeightedRandomSampler
 import torch.distributed as dist
 
 from optimizor.SAM import SAM
@@ -59,8 +55,56 @@ def init_seed(config):
         torch.manual_seed(config['manualSeed'])
         torch.cuda.manual_seed_all(config['manualSeed'])
 
+def build_weighted_sampler(train_set, config, logger=None):
+    """
+    Build a WeightedRandomSampler for imbalanced classification.
 
-def prepare_training_data(config):
+    For DeepfakeAbstractBaseDataset, the dataset index is aligned with:
+        train_set.data_dict['label']
+    """
+    if not hasattr(train_set, 'data_dict'):
+        if logger is not None:
+            logger.info('WeightedRandomSampler disabled: train_set has no data_dict.')
+        return None
+
+    if 'label' not in train_set.data_dict:
+        if logger is not None:
+            logger.info("WeightedRandomSampler disabled: train_set.data_dict has no 'label' key.")
+        return None
+
+    numeric_labels = list(train_set.data_dict['label'])
+
+    if len(numeric_labels) == 0:
+        if logger is not None:
+            logger.info('WeightedRandomSampler disabled: empty training label list.')
+        return None
+
+    class_counts = {}
+    for lab in numeric_labels:
+        class_counts[lab] = class_counts.get(lab, 0) + 1
+
+    if len(class_counts) < 2:
+        if logger is not None:
+            logger.info(f'WeightedRandomSampler disabled: only one class found: {class_counts}')
+        return None
+
+    sample_weights = [1.0 / class_counts[lab] for lab in numeric_labels]
+    sample_weights = torch.DoubleTensor(sample_weights)
+
+    sampler = WeightedRandomSampler(
+        weights=sample_weights,
+        num_samples=len(sample_weights),
+        replacement=True
+    )
+
+    if logger is not None:
+        logger.info(f'WeightedRandomSampler enabled. Class counts: {class_counts}')
+
+    return sampler
+
+
+
+def prepare_training_data(config, logger=None):
     # Only use the blending dataset class in training
     if 'dataset_type' in config and config['dataset_type'] == 'blend':
         if config['model_name'] == 'facexray':
@@ -85,39 +129,59 @@ def prepare_training_data(config):
         train_set = LRLDataset(config, mode='train')
     else:
         train_set = DeepfakeAbstractBaseDataset(
-                    config=config,
-                    mode='train',
-                )
+            config=config,
+            mode='train',
+        )
+
     if config['model_name'] == 'lsda':
         from dataset.lsda_dataset import CustomSampler
-        custom_sampler = CustomSampler(num_groups=2*360, n_frame_per_vid=config['frame_num']['train'], batch_size=config['train_batchSize'], videos_per_group=5)
-        train_data_loader = \
-            torch.utils.data.DataLoader(
-                dataset=train_set,
-                batch_size=config['train_batchSize'],
-                num_workers=int(config['workers']),
-                sampler=custom_sampler, 
-                collate_fn=train_set.collate_fn,
-            )
+        custom_sampler = CustomSampler(
+            num_groups=2 * 360,
+            n_frame_per_vid=config['frame_num']['train'],
+            batch_size=config['train_batchSize'],
+            videos_per_group=5
+        )
+        train_data_loader = torch.utils.data.DataLoader(
+            dataset=train_set,
+            batch_size=config['train_batchSize'],
+            num_workers=int(config['workers']),
+            sampler=custom_sampler,
+            collate_fn=train_set.collate_fn,
+        )
+
     elif config['ddp']:
         sampler = DistributedSampler(train_set)
-        train_data_loader = \
-            torch.utils.data.DataLoader(
+        train_data_loader = torch.utils.data.DataLoader(
+            dataset=train_set,
+            batch_size=config['train_batchSize'],
+            num_workers=int(config['workers']),
+            collate_fn=train_set.collate_fn,
+            sampler=sampler
+        )
+
+    else:
+        weighted_sampler = None
+        if config.get('use_weighted_sampler', False):
+            weighted_sampler = build_weighted_sampler(train_set, config, logger=logger)
+
+        if weighted_sampler is not None:
+            train_data_loader = torch.utils.data.DataLoader(
                 dataset=train_set,
                 batch_size=config['train_batchSize'],
+                sampler=weighted_sampler,
+                shuffle=False,   # sampler and shuffle cannot be used together
                 num_workers=int(config['workers']),
                 collate_fn=train_set.collate_fn,
-                sampler=sampler
             )
-    else:
-        train_data_loader = \
-            torch.utils.data.DataLoader(
+        else:
+            train_data_loader = torch.utils.data.DataLoader(
                 dataset=train_set,
                 batch_size=config['train_batchSize'],
                 shuffle=True,
                 num_workers=int(config['workers']),
                 collate_fn=train_set.collate_fn,
-                )
+            )
+
     return train_data_loader
 
 
@@ -210,6 +274,7 @@ def choose_scheduler(config, optimizer):
             config['nEpochs'],
             int(config['nEpochs']/4),
         )
+        return scheduler
     else:
         raise NotImplementedError('Scheduler {} is not implemented'.format(config['lr_scheduler']))
 
@@ -244,12 +309,25 @@ def main():
     if config['lmdb']:
         config['dataset_json_folder'] = 'preprocessing/dataset_json_v3'
     # create logger
+    '''
     timenow=datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
     task_str = f"_{config['task_target']}" if config.get('task_target', None) is not None else ""
     logger_path =  os.path.join(
                 config['log_dir'],
                 config['model_name'] + task_str + '_' + timenow
             )
+    '''
+    timenow = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+
+    # prefer CLI task_target; fall back to yaml config
+    task_name = args.task_target if args.task_target else config.get('task_target', '')
+
+    task_str = f"_{task_name}" if task_name else ""
+
+    logger_path = os.path.join(
+        config['log_dir'],
+        f"{config['model_name']}{task_str}_{timenow}"
+    )
     os.makedirs(logger_path, exist_ok=True)
     logger = create_logger(os.path.join(logger_path, 'training.log'))
     logger.info('Save log to {}'.format(logger_path))
@@ -275,7 +353,7 @@ def main():
         )
         logger.addFilter(RankFilter(0))
     # prepare the training data loader
-    train_data_loader = prepare_training_data(config)
+    train_data_loader = prepare_training_data(config, logger=logger)
 
     # prepare the testing data loader
     test_data_loaders = prepare_testing_data(config)
@@ -321,3 +399,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
