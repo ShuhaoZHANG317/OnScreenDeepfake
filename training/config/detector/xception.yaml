@@ -16,7 +16,7 @@ backbone_config:
 all_dataset: [
   "FaceForensics++", "FF-F2F", "FF-DF", "FF-FS", "FF-NT", "FaceShifter", "DeepFakeDetection",
   "Celeb-DF-v1", "Celeb-DF-v2", "Celeb-DF-v2-clean",
-  "D1", "D2",
+  "Ditigal",
   "DFDCP", "DFDC", "DeeperForensics-1.0", "UADFV",
   "recaptured_faces__angle__vivov21_15H_faces",
   "recaptured_faces__angle__vivov21_15V_faces",
@@ -126,7 +126,7 @@ all_dataset: [
 train_dataset: ["Celeb-DF-v2-clean"]
 
 # Test dataset inherits a subset (Simplified for brevity)
-test_dataset: ["D1", "D2"
+test_dataset: ["Ditigal",
 "recaptured_faces__angle__vivov21_15H_faces",
   "recaptured_faces__angle__vivov21_15V_faces",
   "recaptured_faces__angle__vivov21_30H_faces",
