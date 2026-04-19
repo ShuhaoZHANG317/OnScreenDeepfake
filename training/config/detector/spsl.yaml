@@ -1,5 +1,5 @@
 # log dir 
-log_dir: /mntcephfs/lab_data/zhiyuanyan/benchmark_results/logs_final/spsl_4frames
+log_dir: ./logs/training/
 
 # model setting
 pretrained: ./training/pretrained/xception-b5690688.pth   # path to a pre-trained model, if using one
@@ -15,15 +15,146 @@ backbone_config:
   dropout: false
 
 # dataset
-all_dataset: [FaceForensics++, FF-F2F, FF-DF, FF-FS, FF-NT, FaceShifter, DeepFakeDetection, Celeb-DF-v1, Celeb-DF-v2, DFDCP, DFDC, DeeperForensics-1.0, UADFV]
-train_dataset: [FF-FS]
-test_dataset: [FaceForensics++, FF-F2F, FF-DF, FF-FS, FF-NT]
+#all_dataset: [FaceForensics++, FF-F2F, FF-DF, FF-FS, FF-NT, FaceShifter, DeepFakeDetection, Celeb-DF-v1, Celeb-DF-v2, Celeb-DF-v2-clean, celeb_subset_baseline_faces, celeb_subset_baseline_faces_10x2, DFDCP, DFDC, DeeperForensics-1.0, UADFV]
+all_dataset: [
+  FaceForensics++, FF-F2F, FF-DF, FF-FS, FF-NT, FaceShifter, DeepFakeDetection,
+  Celeb-DF-v1, Celeb-DF-v2, Celeb-DF-v2-clean,
+  celeb_subset_baseline_faces, celeb_subset_baseline_faces_10x2,
+  DFDCP, DFDC, DeeperForensics-1.0, UADFV,
+
+  # ===== Recaptured: distance =====
+  distance__vivov21_140cm_faces,
+  distance__vivov21_190cm_faces,
+  distance__vivov21_240cm_faces,
+  distance__vivov21_290cm_faces,
+  distance__vivov21_340cm_faces,
+  distance__vivov21_390cm_faces,
+  distance__vivov21_440cm_faces,
+  distance__vivov21_490cm_faces,
+
+  # ===== Recaptured: light =====
+  light__vivov21_bright_faces,
+  light__vivov21_dark_faces,
+  light__vivov21_normal_faces,
+
+  # ===== Recaptured: Meta / Rokid =====
+  Meta__Meta_MAXHUB_frames,
+  Meta__Meta_SEEWO_frames,
+  Meta__Meta_STARZEN_frames,
+  Meta__Meta_loc_frames,
+  Meta__Meta_meetingroom_faces,
+  Meta__Meta_redmi_frames,
+
+  Rokid__Rokid_MAXHUB_frames,
+  Rokid__Rokid_SEEWO_frames,
+  Rokid__Rokid_loc_frames,
+  Rokid__Rokid_meetingroom_faces,
+  Rokid__Rokid_redmi_frames,
+  Rokid__rokid_STARZEN_frames,
+
+  # ===== Recaptured: iPhone =====
+  Iphone17pro__MAXHUB__Iphone17pro_MAXHUB3840x2160_15%_45_frames,
+  Iphone17pro__MAXHUB__Iphone17pro_MAXHUB3840x2160_30%_0_frames,
+  Iphone17pro__MAXHUB__Iphone17pro_MAXHUB3840x2160_30%_45_frames,
+  Iphone17pro__MAXHUB__Iphone17pro_MAXHUB3840x2160_45%_45_frames,
+  Iphone17pro__MAXHUB__Iphone17pro_MAXHUB3840x2160_60%_0_frames,
+  Iphone17pro__MAXHUB__Iphone17pro_MAXHUB3840x2160_90%_0_frames,
+
+  "Iphone17pro__Meeting room__Iphone17pro_Meetingroom3840x2160_15%_45_frames",
+  "Iphone17pro__Meeting room__Iphone17pro_Meetingroom3840x2160_30%_0_frames",
+  "Iphone17pro__Meeting room__Iphone17pro_Meetingroom3840x2160_30%_45_frames",
+  "Iphone17pro__Meeting room__Iphone17pro_Meetingroom3840x2160_45%_45_frames",
+  "Iphone17pro__Meeting room__Iphone17pro_Meetingroom3840x2160_60%_0_frames",
+  "Iphone17pro__Meeting room__Iphone17pro_Meetingroom3840x2160_90%_0_frames",
+
+  Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN1920x1080_15%_45_frames,
+  Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN1920x1080_30%_0_frames,
+  Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN1920x1080_30%_45_frames,
+  Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN1920x1080_45%_45_frames,
+  Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN1920x1080_60%_0_frames,
+  Iphone17pro__classroom_STARZEN1920x1080__Iphone17pro_classroom_STARZEN1920x1080_90%_0_frames,
+
+  Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo1920x1080_15%_45_frames,
+  Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo1920x1080_30%_0_frames,
+  Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo1920x1080_30%_45_frames,
+  Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo1920x1080_45%_45_frames,
+  Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo1920x1080_60%_0_frames,
+  Iphone17pro__classroom_seewo__Iphone17pro_classroom_seewo1920x1080_90%_0_frames,
+
+  Iphone17pro__loc__Iphone17pro_loc1680x1050_15%_45_frames,
+  Iphone17pro__loc__Iphone17pro_loc1680x1050_30%_0_frames,
+  Iphone17pro__loc__Iphone17pro_loc1680x1050_30%_45_frames,
+  Iphone17pro__loc__Iphone17pro_loc1680x1050_45%_45_frames,
+  Iphone17pro__loc__Iphone17pro_loc1680x1050_60%_0_frames,
+  Iphone17pro__loc__Iphone17pro_loc1680x1050_90%_0_frames,
+
+  Iphone17pro__redmi__Iphone17pro_redmi4k_15%_45_frames,
+  Iphone17pro__redmi__Iphone17pro_redmi4k_30%_0_frames,
+  Iphone17pro__redmi__Iphone17pro_redmi4k_30%_45_frames,
+  Iphone17pro__redmi__Iphone17pro_redmi4k_45%_45_frames,
+  Iphone17pro__redmi__Iphone17pro_redmi4k_60%_0_frames,
+  Iphone17pro__redmi__Iphone17pro_redmi4k_90%_0_frames,
+
+  # ===== Recaptured: vivo =====
+  vivo_v21__MAXHUB__vivov21_MAXHUB3840x2160_15%_45_frames,
+  vivo_v21__MAXHUB__vivov21_MAXHUB3840x2160_30%_0_frames,
+  vivo_v21__MAXHUB__vivov21_MAXHUB3840x2160_30%_45_frames,
+  vivo_v21__MAXHUB__vivov21_MAXHUB3840x2160_45%_45_frames,
+  vivo_v21__MAXHUB__vivov21_MAXHUB3840x2160_60%_0_frames,
+  vivo_v21__MAXHUB__vivov21_MAXHUB3840x2160_90%_0_frames,
+
+  vivo_v21__MEETINGROOM__vivov21_Meetingroom3840x2160_15%_45_frames,
+  vivo_v21__MEETINGROOM__vivov21_Meetingroom3840x2160_30%_0_frames,
+  vivo_v21__MEETINGROOM__vivov21_Meetingroom3840x2160_30%_45_frames,
+  vivo_v21__MEETINGROOM__vivov21_Meetingroom3840x2160_45%_45_frames,
+  vivo_v21__MEETINGROOM__vivov21_Meetingroom3840x2160_60%_0_frames,
+  vivo_v21__MEETINGROOM__vivov21_Meetingroom3840x2160_90%_0_frames,
+
+  vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_15%_45_frames,
+  vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_30%_0_frames,
+  vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_30%_45_frames,
+  vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_45%_45_frames,
+  vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_60%_0_frames,
+  vivo_v21__classroom_STARZEN1920x1080__vivov21_classroom_STARZEN1920x1080_90%_0_frames,
+
+  vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_15%_45_frames,
+  vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_30%_0_frames,
+  vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_30%_45_frames,
+  vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_45%_45_frames,
+  vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_60%_0_frames,
+  vivo_v21__classroom_seewo__vivov21_classroom_seewo1920x1080_90%_0_frames,
+
+  vivo_v21__loc__vivov21_loc1680x1050_15%_45_frames,
+  vivo_v21__loc__vivov21_loc1680x1050_30%_0_frames,
+  vivo_v21__loc__vivov21_loc1680x1050_30%_45_frames,
+  vivo_v21__loc__vivov21_loc1680x1050_45%_45_frames,
+  vivo_v21__loc__vivov21_loc1680x1050_60%_0_frames,
+  vivo_v21__loc__vivov21_loc1680x1050_90%_0_frames,
+
+  vivo_v21__redmi__vivov21_redmi4k_15%_45_frames,
+  vivo_v21__redmi__vivov21_redmi4k_30%_0_frames,
+  vivo_v21__redmi__vivov21_redmi4k_30%_45_frames,
+  vivo_v21__redmi__vivov21_redmi4k_45%_45_frames,
+  vivo_v21__redmi__vivov21_redmi4k_60%_0_frames,
+  vivo_v21__redmi__vivov21_redmi4k_90%_0_frames,
+  # ===== Recaptured: angle / moire =====
+  vivov21_15H_faces,
+  vivov21_15V_faces,
+  vivov21_30H_faces,
+  vivov21_30HV_faces,
+  vivov21_30V_faces,
+  vivov21_45H_faces,
+  vivov21_45V_faces,
+  vivov21_moire_faces
+]
+train_dataset: [Celeb-DF-v2-clean]
+test_dataset: [celeb_subset_baseline_faces, celeb_subset_baseline_faces_10x2]
 
 compression: c23  # compression-level for videos
 train_batchSize: 32   # training batch size
 test_batchSize: 32   # test batch size
-workers: 8   # number of data loading workers
-frame_num: {'train': 4, 'test': 32}   # number of frames to use per video in training and testing
+workers: 4   # number of data loading workers
+frame_num: {'train': 32, 'test': 5}   # number of frames to use per video in training and testing
 resolution: 256   # resolution of output image to network
 with_mask: false   # whether to include mask information in the input
 with_landmark: false   # whether to include facial landmark information in the input
@@ -73,7 +204,7 @@ save_epoch: 1   # interval epochs for saving models
 rec_iter: 100   # interval iterations for recording
 logdir: ./logs   # folder to output images and logs
 manualSeed: 1024   # manual seed for random number generation
-save_ckpt: false   # whether to save checkpoint
+save_ckpt: true   # whether to save checkpoint
 
 # loss function
 loss_func: cross_entropy   # loss function to use
@@ -86,3 +217,4 @@ metric_scoring: auc   # metric for evaluation (auc, acc, eer, ap)
 
 cuda: true   # whether to use CUDA acceleration
 cudnn: true   # whether to use CuDNN for convolution operations
+
